@@ -1,1 +1,1 @@
-celery -A dive.worker.core flower
+/code/venv/bin/celery -A dive.worker.core flower

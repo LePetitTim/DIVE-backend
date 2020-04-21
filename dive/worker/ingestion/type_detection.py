@@ -1,6 +1,6 @@
 import re
 import pandas as pd
-from csvkit import sniffer
+import csv
 from random import sample as random_sample
 import dateutil.parser as dparser
 from collections import defaultdict
@@ -175,7 +175,7 @@ def detect_if_list(v):
     delimiters = ['|', ',', ';', '$']
 
     LIST_LEN_THRESHOLD = 2
-    dialect = sniffer.sniff_dialect(v)
+    dialect = csv.Sniffer().sniff(v)
     if dialect:
         delim = dialect.delimiter
         split_vals = v.split(delim)

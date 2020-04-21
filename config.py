@@ -29,7 +29,7 @@ class BaseConfig(object):
     DEBUG = True
     PORT = 8081
     COMPRESS = True
-    PROPAGATE_EXCEPTIONS = True
+    PROPAGATE_EXCEPTIONS = False
 
     # Cookies
     COOKIE_DOMAIN = None
@@ -49,9 +49,9 @@ class BaseConfig(object):
     MAIL_DEBUG = False
 
     # Data
-    MAX_CONTENT_LENGTH = sys.maxint
-    ROW_LIMIT = sys.maxint
-    COLUMN_LIMIT = sys.maxint
+    MAX_CONTENT_LENGTH = sys.maxsize
+    ROW_LIMIT = sys.maxsize
+    COLUMN_LIMIT = sys.maxsize
 
     # Parameters
     ANALYSIS_DATA_SIZE_CUTOFF=10000
@@ -80,7 +80,7 @@ class BaseConfig(object):
     CELERY_ACCEPT_CONTENT = [ 'pjson' ]
     CELERY_TASK_SERIALIZER = 'pjson'
     CELERY_RESULT_SERIALIZER = 'pjson'
-    CELERY_BROKER_URL = 'amqp://admin:password@localhost/dive'
+    CELERY_BROKER_URL = 'amqp://admin:test@rabbitmq/dive'
     CELERY_RESULT_BACKEND = 'db+postgresql://%s' % DATABASE_URI
 
     CELERY_IMPORTS = []

@@ -27,9 +27,14 @@ excluded_filetypes = ['json', 'py', 'yaml']
 app = create_app()
 app.app_context().push()
 mode = os.environ.get('MODE', 'DEVELOPMENT')
-if mode == 'DEVELOPMENT': app.config.from_object('config.DevelopmentConfig')
-elif mode == 'TESTING': app.config.from_object('config.TestingConfig')
-elif mode == 'PRODUCTION': app.config.from_object('config.ProductionConfig')
+print(mode, mode == "DEVELOPMENT")
+if mode == 'DEVELOPMENT':
+    print(app.config)
+    app.config.from_object('config.DevelopmentConfig')
+elif mode == 'TESTING':
+    app.config.from_object('config.TestingConfig')
+elif mode == 'PRODUCTION':
+    app.config.from_object('config.ProductionConfig')
 
 db = SQLAlchemy(app)
 manager = Manager(app)
@@ -161,7 +166,7 @@ def ensure_dummy_project():
     logger.info('Ensuring dummy project for preloaded datasets')
     try:
         dummy_project = Project.query.filter_by(id=-1).one()
-    except NoResultFound, e:
+    except NoResultFound as e:
         p = Project(
             id=-1,
             title='Dummy Project',

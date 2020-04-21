@@ -262,7 +262,7 @@ def get_expanded_viz_specs(c_fields, q_fields, t_fields, c_fields_not_selected, 
     n_q = len(q_fields)
     n_t = len(t_fields)
 
-    print 'EXPANDED', n_c, n_q, n_t
+    print('EXPANDED', n_c, n_q, n_t)
 
     # One selected C
     for c_field_1 in c_fields:

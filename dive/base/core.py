@@ -1,6 +1,7 @@
+import json
 import os
 import sys
-import pandas.json as pjson
+from pandas import read_json
 
 import boto3
 import psycopg2.extras
@@ -17,11 +18,11 @@ from werkzeug.local import LocalProxy
 from dive.base.serialization import pjson_dumps, pjson_loads
 
 # Setup logging config
-from setup_logging import setup_logging
+from dive.base.setup_logging import setup_logging
 setup_logging()
 
 psycopg2.extras.register_default_json(
-    loads=pjson.loads
+    loads=json.loads
 )
 
 class CustomSQLAlchemy(SQLAlchemy):
@@ -72,7 +73,6 @@ def create_app(**kwargs):
     @app.teardown_appcontext
     def shutdown_session(exception=None):
         db.session.remove()
-
     if app.config['STORAGE_TYPE'] == 's3':
         global s3_client
         s3_client = boto3.client('s3',

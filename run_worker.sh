@@ -1,4 +1,5 @@
-celery worker \
+#!/bin/bash
+/code/venv/bin/celery worker \
   -E \
   --app=dive.worker.core \
   --autoscale=10,3 \

@@ -1,0 +1,70 @@
+version: "3"
+services:
+  postgres:
+    image: makinacorpus/postgis:11-2.5
+    env_file:
+      - .env
+    environment:
+      - PGPORT=${POSTGRES_PORT:-5432}
+    ports:
+      - "${POSTGRES_PORT:-5432}:${POSTGRES_PORT:-5432}"
+
+  celery:
+    image: dive
+    build:
+      context: .
+    env_file:
+      - .env
+    volumes:
+      - ./var:/code/src/var
+    depends_on:
+      - redis
+    user: ${UID:-0}:${GID:-0}
+    command: ./run_worker.sh
+  flower:
+    image: dive
+    build:
+      context: .
+    env_file:
+      - .env
+    volumes:
+      - ./var:/code/src/var
+    depends_on:
+      - redis
+      - celery
+    user: ${UID:-0}:${GID:-0}
+    command:  /code/venv/bin/celery -A dive.worker.core flower
+  web:
+    image: dive
+    build:
+      context: .
+    depends_on:
+      - celery
+      - postgres
+    environment:
+      - POSTGRES_HOST=postgres
+    env_file:
+      - .env
+    ports:
+      - "${WEB_PORT:-8000}:8000"
+    volumes:
+      - ./:/code/src
+    user: ${UID:-1000}:${GID:-1000}
+    command: ./run_server.sh
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: test
+      RABBITMQ_DEFAULT_VHOST: dive
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  redis:
+    image: redis:5.0-alpine
+
+volumes:
+  postgres:

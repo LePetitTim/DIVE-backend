@@ -14,8 +14,8 @@ binning_procedures = {
     'bayesian': False
 }
 
-from single_field_single_type_specs import *
-from single_field_multi_type_specs import *
-from multi_field_single_type_specs import *
-from mixed_field_multi_type_specs import *
-from multi_field_multi_type_specs import *
+from .single_field_single_type_specs import *
+from .single_field_multi_type_specs import *
+from .multi_field_single_type_specs import *
+from .mixed_field_multi_type_specs import *
+from .multi_field_multi_type_specs import *

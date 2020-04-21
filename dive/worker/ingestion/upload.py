@@ -11,10 +11,7 @@ import csv
 import xlrd
 import json
 import codecs
-try:
-    import cStringIO as StringIO
-except:
-    import StringIO
+from io import StringIO
 import boto3
 import chardet
 import pandas as pd

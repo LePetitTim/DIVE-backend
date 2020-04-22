@@ -1,6 +1,6 @@
 def dict_to_collection(d):
     result = []
-    for k, v in d.iteritems():
+    for k, v in d.items():
         result.append({k: v})
     return result
 

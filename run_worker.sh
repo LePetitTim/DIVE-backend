@@ -3,4 +3,6 @@
   -E \
   --app=dive.worker.core \
   --autoscale=10,3 \
-  --loglevel=DEBUG
+  --loglevel=DEBUG \
+  --pool=solo \
+  --max-tasks-per-child=1

@@ -80,7 +80,7 @@ def get_type_scores_from_field_name(field_name, num_samples=100):
         operation = d['operation']
         mappings = d['mappings']
 
-        for datatype, strings in mappings.iteritems():
+        for datatype, strings in mappings.items():
             for s in strings:
                 if operation(field_name, s):
                     type_scores[datatype] += weight * num_samples
@@ -121,9 +121,9 @@ def calculate_field_type(field_name, field_values, field_position, num_fields, n
 
     # Combine type score dictionaries
     final_type_scores = defaultdict(int)
-    for t, score in type_scores_from_name.iteritems():
+    for t, score in type_scores_from_name.items():
         final_type_scores[t] += score
-    for t, score in type_scores_from_values.iteritems():
+    for t, score in type_scores_from_values.items():
         final_type_scores[t] += score
 
     # Normalize field scores
@@ -131,7 +131,7 @@ def calculate_field_type(field_name, field_values, field_position, num_fields, n
     normalized_type_scores = {}
     total_score = sum(final_type_scores.values())
     if total_score:
-        for type_name, score in final_type_scores.iteritems():
+        for type_name, score in final_type_scores.items():
             score_tuples.append((type_name, score))
             normalized_type_scores[type_name] = float(score) / total_score
 

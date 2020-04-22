@@ -49,7 +49,7 @@ def insert_project(**kwargs):
 def update_project(project_id, **kwargs):
     project = Project.query.get_or_404(project_id)
 
-    for k, v in kwargs.iteritems():
+    for k, v in kwargs.items():
         setattr(project, k, v)
 
     db.session.add(project)
@@ -190,7 +190,7 @@ def update_dataset_properties(project_id, dataset_id, **kwargs):
         dataset_id=dataset_id,
         ).one()
 
-    for k, v in kwargs.iteritems():
+    for k, v in kwargs.items():
         setattr(dataset_properties, k, v)
 
     db.session.add(dataset_properties)
@@ -240,7 +240,7 @@ def update_field_properties(project_id, dataset_id, name, **kwargs):
         dataset_id=dataset_id,
         name=name).one()
 
-    for k, v in kwargs.iteritems():
+    for k, v in kwargs.items():
         setattr(field_properties, k, v)
 
     db.session.commit()
@@ -255,7 +255,7 @@ def update_field_properties(project_id, dataset_id, name, **kwargs):
         dataset_id=dataset_id,
         name=name).one()
 
-    for k, v in kwargs.iteritems():
+    for k, v in kwargs.items():
         setattr(field_properties, k, v)
 
     db.session.commit()
@@ -271,7 +271,7 @@ def update_field_properties_type_by_id(project_id, field_id, field_type, general
     field_properties.type = field_type
     field_properties.general_type = general_type
 
-    for k, v in updated_properties.iteritems():
+    for k, v in updated_properties.items():
         setattr(field_properties, k, v)
 
     field_properties.manual.update({

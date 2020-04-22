@@ -175,7 +175,7 @@ def get_aggregation_stats_numerical(data_column, stats_dict):
     stats_dict: represents the statistical dictionary already in field_properties
     '''
     stats = []
-    for aggregation_function_name, aggregation_function in aggregation_functions.iteritems():
+    for aggregation_function_name, aggregation_function in aggregation_functions.items():
         if aggregation_function_name in stats_dict:
             stats.append(stats_dict.get(aggregation_function_name, aggregation_function(data_column)))        
     return stats

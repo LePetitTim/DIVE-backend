@@ -138,7 +138,7 @@ def create_anonymous_user():
 
 def register_user(username, email, password, user_id=None, confirmed=True, anonymous=False, admin=[], teams=[], create_teams=True):
     if user_id:
-        user = User.query.get_or_404(user_id)
+        user = User.query.get_or_404(int(user_id))
         setattr(user, 'username', username)
         setattr(user, 'email', email)
         setattr(user, 'password', password)
@@ -192,7 +192,7 @@ def change_user_password_by_email(email, password):
 
 def delete_user(user_id, password, name=None):
     try:
-        user = User.query.filter_by(id=user_id, password=password).one()
+        user = User.query.filter_by(id=int(user_id), password=password).one()
     except NoResultFound as e:
         return None
     except MultipleResultsFound as e:
@@ -254,7 +254,7 @@ def check_user_auth(password, email=None, username=None):
 
 
 def delete_anonymous_data(user_id):
-    user = User.query.get_or_404(user_id)
+    user = User.query.get_or_404(int(user_id))
     db.session.delete(user)
     db.session.commit()
     return user

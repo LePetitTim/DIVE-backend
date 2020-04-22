@@ -102,7 +102,7 @@ def get_dialect(file_obj, sample_size=1024*1024):
     file_obj.seek(0)
 
     sniffer = csv.Sniffer()
-    dialect = sniffer.sniff(sample)
+    dialect = sniffer.sniff(sample.decode("utf-8"))
 
     result = {
         'delimiter': dialect.delimiter,
@@ -139,7 +139,7 @@ def save_dataset_to_db(project_id, file_obj, file_title, file_name, file_type, p
                 coerced_content = file_obj.read().decode(encoding).encode('utf-8', 'replace')
             except UnicodeDecodeError as UDE:
                 try:
-                    coerced_content = unicode(file_obj.read(), errors='replace')
+                    coerced_content = str(file_obj.read(), errors='replace')
                 except UnicodeDecodeError as UDE:
                     logger.error('Error coercing unicode for file with path %s', path, exc_info=True)
                     raise UDE
@@ -228,7 +228,7 @@ def save_excel_to_csv(project_id, file_obj, file_title, file_name, file_type, pa
             strIO = StringIO.StringIO()
             wr = csv.writer(strIO, quoting=csv.QUOTE_ALL)
             for rn in xrange(sheet.nrows) :
-                wr.writerow([ unicode(v).encode('utf-8', 'replace') for v in sheet.row_values(rn) ])
+                wr.writerow([ str(v).encode('utf-8', 'replace') for v in sheet.row_values(rn) ])
             strIO.seek(0)
 
             response = s3_client.upload_fileobj(
@@ -242,7 +242,7 @@ def save_excel_to_csv(project_id, file_obj, file_title, file_name, file_type, pa
             csv_file = open(csv_path, 'wb')
             wr = csv.writer(csv_file, quoting=csv.QUOTE_ALL)
             for rn in xrange(sheet.nrows) :
-                wr.writerow([ unicode(v).encode('utf-8') for v in sheet.row_values(rn) ])
+                wr.writerow([ str(v).encode('utf-8') for v in sheet.row_values(rn) ])
             csv_file.close()
 
         file_doc = {
@@ -282,7 +282,7 @@ def save_json_to_csv(project_id, file_obj, file_title, file_name, file_type, pat
         row = []
         for field in header :
             row.append(json_data[i][field])
-        wr.writerow([unicode(v).encode('utf-8') for v in row])
+        wr.writerow([str(v).encode('utf-8') for v in row])
     csv_file.close()
     file_doc = {
         'title': csv_file_title,

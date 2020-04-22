@@ -9,7 +9,7 @@ from dive.base.core import db
 
 
 def make_uuid():
-    return unicode(uuid.uuid4())
+    return uuid.uuid4()
 
 
 project_preloaded_dataset_association_table = Table('project_preloaded_dataset_association',
@@ -146,7 +146,7 @@ class Dataset_Properties(db.Model):
     field_names = Column(JSONB)
     field_types = Column(JSONB)
     field_accessors = Column(JSONB)
-    structure = Enum(['wide', 'long'])
+    structure = Enum(('wide', 'long'))
     is_time_series = Column(Boolean())
 
     dataset_id = Column(Integer, ForeignKey('dataset.id',
@@ -594,4 +594,4 @@ class User(db.Model):
         return self.active
 
     def get_id(self):
-        return unicode(self.id)
+        return str(self.id)

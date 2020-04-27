@@ -111,10 +111,10 @@ def calculate_field_type(field_name, field_values, field_position, num_fields, n
     instances.
     '''
     # # Convert to str and drop NAs for type detection
-    field_values = field_values.dropna().apply(unicode)
+    field_values = field_values.dropna().apply(str)
 
     num_samples = min(len(field_values), num_samples)
-    field_sample = random_sample(field_values, num_samples) if random else field_values[:num_samples]
+    field_sample = random_sample(list(field_values), num_samples) if random else field_values[:num_samples]
 
     type_scores_from_name = get_type_scores_from_field_name(field_name, num_samples=num_samples)
     type_scores_from_values = get_type_scores_from_field_values(field_sample)

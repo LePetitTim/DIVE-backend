@@ -83,9 +83,8 @@ def sample_with_maximum_distance(li, num_samples, random_start=True):
 def calculate_field_stats(field_type, general_type, field_values, logging=False):
     if logging: start_time = time()
     percentiles = [(i * .5) / 10 for i in range(1, 20)]
-
     df = pd.DataFrame(field_values)
-    stats = df.describe(percentiles=percentiles).to_dict().values()[0]
+    stats = list(df.describe(percentiles=percentiles).to_dict().values())[0]
     stats['total_count'] = df.shape[0]
     return stats
 
@@ -173,7 +172,6 @@ def get_contiguity(field_name, field_values, field_values_no_na, field_type, gen
 def get_field_distribution_viz_data(field_name, field_values, field_type, general_type, scale, is_id, contiguous):
     viz_data = None
     if is_id: return viz_data
-
     df = pd.DataFrame.from_dict({ field_name: field_values })
     field_document = { 'name': field_name, 'type': field_type, 'scale': scale, 'general_type': general_type }
     if scale in [ Scale.CONTINUOUS.value ]:

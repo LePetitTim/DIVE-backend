@@ -68,7 +68,8 @@ def upload_file(project_id, file_obj):
         path = os.path.join(current_app.config['STORAGE_PATH'], str(project_id), file_name)
     elif current_app.config['STORAGE_TYPE'] == 's3':
         path = 'https://s3.amazonaws.com/%s/%s/%s' % (current_app.config['AWS_DATA_BUCKET'], str(project_id), file_name)
-
+    else:
+        raise ValueError
     # Persisting file and saving to DB
     datasets = save_dataset_to_db(
         project_id,

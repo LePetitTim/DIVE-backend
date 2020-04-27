@@ -22,11 +22,11 @@ import logging
 logger = logging.getLogger(__name__)
 
 def get_bin_decimals(v, max_sample=100, default=3):
-    v = v.astype(float, raise_on_error=False)
+    v = v.astype(float, errors='ignore')
     if len(v) <= max_sample:
         sample = v
     else:
-        sample = random.sample(v, max_sample)
+        sample = random.sample(list(v), max_sample)
 
     num_decimals = []
     for e in sample:
@@ -76,17 +76,19 @@ def format_bin_edges_list(bin_edges_list, precision, general_type=GDT.Q.value):
 
 
 def get_num_bins(v, procedure='freedman', default_num_bins=10):
-    v = v.astype(float, raise_on_error=False)
+    v = v.astype(float, errors='ignore')
     n = len(v)
     min_v = min(v)
     max_v = max(v)
 
-    # Procedural binning
     if procedure == 'freedman':
         try:
             IQR = np.subtract(*np.percentile(v, [75, 25]))
             bin_width = 2 * IQR * n**(-1/3)
-            num_bins = (max_v - min_v) / bin_width
+            if not bin_width == 0:
+                num_bins = (max_v - min_v) / bin_width
+            else:
+                num_bins = math.sqrt(n)
         except:
             num_bins = math.sqrt(n)
     elif procedure == 'square_root':
@@ -99,7 +101,6 @@ def get_num_bins(v, procedure='freedman', default_num_bins=10):
         num_bins = 2 * n**(-1/3)
     elif procedure == 'sturges':
         num_bins = math.ceil(math.log(n, 2) + 1)
-
     num_bins = math.floor(num_bins)
     num_bins = min(num_bins, MAX_BINS)
 
@@ -134,7 +135,7 @@ def get_bin_edges(v, num_bins, general_type=GDT.Q.value, num_decimals=2):
             max_v = max(v)
 
     if general_type == GDT.Q.value:
-        v = v.astype(float, raise_on_error=False)
+        v = v.astype(float, errors='ignore')
         min_v = min(v)
         max_v = max(v)
 

@@ -76,7 +76,7 @@ class BaseConfig(object):
     ALEMBIC_DIR = base_dir_path('migrate')
 
     # Worker
-    CELERY_TASK_ALWAYS_EAGER = False
+    CELERY_TASK_ALWAYS_EAGER = True
     CELERY_ACCEPT_CONTENT = [ 'pjson' ]
     CELERY_TASK_SERIALIZER = 'pjson'
     CELERY_RESULT_SERIALIZER = 'pjson'

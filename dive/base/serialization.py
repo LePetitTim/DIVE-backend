@@ -2,6 +2,7 @@ import json
 import numpy as np
 import pandas as pd
 from flask import current_app
+import pandas.io.json as pjson
 from datetime import date, datetime
 
 def string_to_camel_case(snake_str):
@@ -28,7 +29,7 @@ def format_json(obj, camel_case=False):
 
 
 def jsonify(obj, status=200):
-    json_string = json.dumps(format_json(obj, camel_case=True))
+    json_string = pjson.dumps(format_json(obj, camel_case=True))
     return current_app.response_class(json_string, mimetype='application/json', status=status)
 
 
@@ -36,9 +37,10 @@ def jsonify(obj, status=200):
 # http://stackoverflow.com/questions/21631878/celery-is-there-a-way-to-write-custom-json-encoder-decoder
 # Encoder function
 def pjson_dumps(obj):
-    return json.dumps(format_json(obj, camel_case=False))
+    return pjson.dumps(format_json(obj, camel_case=False))
 
 
 # Decoder function
 def pjson_loads(s):
-    return json.dumps(str(s))
+    #raise ValueError(pjson.loads(str(s)))
+    return pjson.loads(str(s))

@@ -27,9 +27,7 @@ excluded_filetypes = ['json', 'py', 'yaml']
 app = create_app()
 app.app_context().push()
 mode = os.environ.get('MODE', 'DEVELOPMENT')
-print(mode, mode == "DEVELOPMENT")
 if mode == 'DEVELOPMENT':
-    print(app.config)
     app.config.from_object('config.DevelopmentConfig')
 elif mode == 'TESTING':
     app.config.from_object('config.TestingConfig')

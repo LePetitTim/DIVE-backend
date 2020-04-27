@@ -37,7 +37,8 @@ task_state_to_code = {
 
 class TaskResult(Resource):
     def get(self, task_id):
-        task = celery.AsyncResult(task_id)  # task_2 = AsyncResult(id=task_id, app=celery)
+        task = celery.AsyncResult(id=task_id, app=celery)  # task_2 = AsyncResult(id=task_id, app=celery)
+        return jsonify({'state': 'PENDING'})
         state = task.state
         info = task.info if task.info else {}
         result = {

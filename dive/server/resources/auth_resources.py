@@ -189,7 +189,7 @@ class Register(Resource):
                 username,
                 email,
                 password,
-                user_id=user_id,
+                user_id=int(user_id),
                 confirmed=confirmed,
                 anonymous=False
             )
@@ -223,7 +223,7 @@ class Register(Resource):
             response = set_cookies(response, {
                 'username': user.username,
                 'email': user.email,
-                'user_id': user.id,
+                'user_id': int(user.id),
                 'confirmed': user.confirmed,
                 'anonymous': user.anonymous
             }, expires=datetime.utcnow() + COOKIE_DURATION)
@@ -267,7 +267,7 @@ class AnonymousUser(Resource):
         response = set_cookies(response, {
             'username': user.username,
             'email': '',
-            'user_id': user.id,
+            'user_id': int(user.id),
             'confirmed': False,
             'anonymous': True
         })
